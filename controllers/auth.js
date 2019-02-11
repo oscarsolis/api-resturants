@@ -12,11 +12,7 @@ exports.login = (req, res) => {
 	User.findOne({ email: req.body.email })
 		.then(user => {
 			if (user) {
-				if (
-					user.isActive &&
-					!user.deleted &&
-					user.verifyPasswordSync(req.body.password)
-				) {
+				if (!user.deleted && user.verifyPasswordSync(req.body.password)) {
 					const token = jwt.sign(
 						{
 							_id: user.id,
@@ -28,16 +24,14 @@ exports.login = (req, res) => {
 						config.secretToken,
 						{ expiresIn: "25h" }
 					);
-					respond(res, { token });
+					respond(res, { success: true, token });
 				} else if (user.deleted) {
-					respond(res, { message: "User not found" }, 404);
+					respond(res, { success: false, message: "User not found" }, 404);
 				} else if (!user.verifyPasswordSync(req.body.password)) {
-					respond(res, { message: "User not found" }, 404);
-				} else if (!user.isActive) {
-					respond(res, { message: "User is disabled" }, 422);
+					respond(res, { success: false, message: "User not found" }, 404);
 				}
 			} else {
-				respond(res, { message: "User not found" }, 404);
+				respond(res, { success: false, message: "User not found" }, 404);
 			}
 		})
 		.catch(err => {

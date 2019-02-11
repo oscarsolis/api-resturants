@@ -8,7 +8,7 @@ const { respond, registerLog } = require("../utils");
 exports.index = async (req, res, next) => {
 	try {
 		const restaurants = await Restaurant.listNotDeleted();
-		respond(res, restaurants);
+		respond(res, { success: true, restaurants });
 	} catch (error) {
 		respond(res, error, 500);
 	}
@@ -21,7 +21,7 @@ exports.findOne = async (req, res, next) => {
 	try {
 		const restaurant = await Restaurant.findById(req.params.RestaurantId);
 		!restaurant
-			? respond(res, { message: "not found Restaurant" }, 404)
+			? respond(res, { message: "not found Restaurants" }, 404)
 			: respond(res, restaurant);
 	} catch (error) {
 		respond(res, error, 500);
@@ -36,12 +36,20 @@ exports.new = (req, res, next) => {
 	const restaurant = new Restaurant(restaurantData);
 	const error = restaurant.validateSync();
 	if (error) {
-		respond(res, error, 422);
+		const errors = Object.keys(error.errors).map(
+			key => error.errors[key].message
+		);
+		respond(res, { success: false, errors }, 422);
 	} else {
 		restaurant
 			.save()
-			.then(result => respond(res, { success: true }, 200))
-			.catch(err => respond(res, err.toJSON(), err.code ? 500 : 422));
+			.then(result => respond(res, { success: true, restaurant }, 200))
+			.catch(err => {
+				const errors = Object.keys(err.errors).map(
+					key => err.errors[key].message
+				);
+				respond(res, errors, err.code ? 500 : 422);
+			});
 	}
 };
 
@@ -76,17 +84,22 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
 	try {
 		const restaurant = await Restaurant.findOne({
-			_id: req.params.restaurantId
+			_id: req.params.restaurantId,
+			delete: false
 		});
 		if (restaurant) {
 			const restaurantDeleted = await restaurant.delete(
 				req.params.restaurantId
 			);
 			restaurantDeleted
-				? respond(res, restaurantDeleted)
-				: respond(res, { message: "not found Restaurant" }, 404);
+				? respond(res, { success: true, restaurant: restaurantDeleted })
+				: respond(
+						res,
+						{ success: false, message: "not found Restaurant" },
+						404
+				  );
 		} else {
-			respond(res, { message: "not found Restaurant" }, 404);
+			respond(res, { success:false, message: "not found Restaurant" }, 404);
 		}
 	} catch (error) {
 		console.log(error);
