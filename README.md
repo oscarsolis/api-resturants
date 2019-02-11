@@ -271,7 +271,7 @@ GET
   "email": "vips@gmail.com",
   "phone": "1242343432",
   "isActive": true,
-  "deleted": true
+  "deleted": false
  }
 }
 ```
