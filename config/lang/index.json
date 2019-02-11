@@ -1,0 +1,6 @@
+{
+	"validations": {
+		"required": "El campo {PATH} es requerido",
+		"unique": "El campo {PATH} ya tiene un registro con el valor {VALUE}"
+	}
+}
