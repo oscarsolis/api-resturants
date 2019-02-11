@@ -42,17 +42,29 @@ password | string | Sí | Contraseña de usuario.
 
 ``` json
 {
-	"success": true, 
-	"user": {
-			"updatedAt": "2019-02-11T22:17:45.121Z",
-			"createdAt": "2019-02-11T22:17:45.121Z",
-			"name": "test",
-			"paternalSurname": "test",
-			"maternalSurname": "test",
-			"email": "test@gmail.com",
-			"password": "$2a$10$qXg2ot41YjHBnMUrZqHaGOLSsbnpHenYgc9dc4NbQe88AANraexea",
-			"deleted": false,
-			"_id": "5c61f48892b48948d1ab96c1"
+ "success": true, 
+ "user": {
+	"updatedAt": "2019-02-11T22:17:45.121Z",
+	"createdAt": "2019-02-11T22:17:45.121Z",
+	"name": "test",
+	"paternalSurname": "test",
+	"maternalSurname": "test",
+	"email": "test@gmail.com",
+	"password": "$2a$10$qXg2ot41YjHBnMUrZqHaGOLSsbnpHenYgc9dc4NbQe88AANraexea",
+	"deleted": false,
+	"_id": "5c61f48892b48948d1ab96c1"
 	}
+}
+```
+
+### Error de Validación - Codigo Http 422
+
+``` json
+{
+ "success": false,
+ "errors": [	
+	"El campo paternalSurname es requerido",
+	"El campo name es requerido"
+ ]
 }
 ```

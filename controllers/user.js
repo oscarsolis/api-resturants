@@ -35,15 +35,17 @@ exports.findOne = async (req, res, next) => {
 exports.new = (req, res, next) => {
 	let userData = req.body;
 	let user = new User(userData);
-	let errors = user.validateSync();
-	if (errors) {
-		respond(res, error, 422);
+	let err = user.validateSync();
+	if (err) {
+		const errors = Object.keys(err.errors).map(key=> err.errors[key].message);
+		respond(res, { success: false, errors }, 422);
 	} else {
 		user
 			.save()
 			.then(user => respond(res, { success: true, user }, 201))
 			.catch(err => {
-				respond(res, err, err.code ? 500 : 422);
+				const errors = Object.keys(err.errors).map(key => err.errors[key].message);
+				respond(res, errors, err.code ? 500 : 422);
 			});
 	}
 };
