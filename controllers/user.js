@@ -37,14 +37,12 @@ exports.new = (req, res, next) => {
 	let user = new User(userData);
 	let errors = user.validateSync();
 	if (errors) {
-		console.log("eee", errors.errors.email.message);
 		respond(res, error, 422);
 	} else {
 		user
 			.save()
-			.then(user => respond(res, { success: true }, 201))
+			.then(user => respond(res, { success: true, user }, 201))
 			.catch(err => {
-				console.log(errors.errors.email);
 				respond(res, err, err.code ? 500 : 422);
 			});
 	}

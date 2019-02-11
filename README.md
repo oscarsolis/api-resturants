@@ -20,11 +20,11 @@ Ejecute los siguientes comandos en su terminal
 
 ## Registro de usuario
 
-* **URL**
+### URL
 ```
  /users
 ```
-* **Método**
+### Método
 ```
 POST
 ```
@@ -37,3 +37,22 @@ paternalSurname | string | Sí | Apellido paterno del usuario
 maternalSurname | string | Sí | Apellido materno del usuario
 email | string | Sí | Correo electronico del usuario.
 password | string | Sí | Contraseña de usuario.
+
+### Success Response - Codigo HTTP 200
+
+``` json
+{
+	"success": true, 
+	"user": {
+			"updatedAt": "2019-02-11T22:17:45.121Z",
+			"createdAt": "2019-02-11T22:17:45.121Z",
+			"name": "test",
+			"paternalSurname": "test",
+			"maternalSurname": "test",
+			"email": "test@gmail.com",
+			"password": "$2a$10$qXg2ot41YjHBnMUrZqHaGOLSsbnpHenYgc9dc4NbQe88AANraexea",
+			"deleted": false,
+			"_id": "5c61f48892b48948d1ab96c1"
+	}
+}
+```
