@@ -26,16 +26,16 @@ const UserSchema = new Schema({
         required: [true, lang.validations.required],
         unique: true
     },
-    phone: {
-        type: String,
-        trim: true,
-        unique: true,
-        required: [true, lang.validations.required]
-    },
-    isActive: {
-				type: Boolean,
-				default: true
-    }
+    // phone: {
+    //     type: String,
+    //     trim: true,
+    //     unique: true,
+    //     required: [true, lang.validations.required]
+    // },
+    // isActive: {
+		// 		type: Boolean,
+		// 		default: true
+    // }
 }, {
     versionKey: false,
     timestamps: true,

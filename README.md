@@ -1,5 +1,7 @@
 # Servidor
 
+La siguiente api proporciona una api publica para el registro de usuarios, un api de autenticación y un api con autorización para el registro de restaurantes.
+
 ## Requerimientos
 - NodeJs >= 8
 - NPM
@@ -14,21 +16,24 @@ Ejecute los siguientes comandos en su terminal
   npm start
 ``` 
 
-El API usa autorización JWT, todas las rutas están protegidas para que solo los usuarios registrados en el sistema puedan acceder a la aplicación, inicialmente usted necesitara un usuario por default para poder iniciar sesión en el sistema, puede registrar el siguiente usuario o cambiarlo por los datos que a usted mejor le parezcan.
+# Documentación API
 
-```json
-{
-    "name" : "Admin",
-    "paternalSurname" : "Apellido Admin",
-    "maternalSurname" : "Apellido Admin",
-    "email" : "admin@gmail.com",
-    "isActive" : true,
-    "phone" : "5606322324",
-    "password" : "$2a$10$L9QTdPG1w83.SwpgbQjrpur0XI6oP4fkQZ.mVZ3vuImoYa.S6yod2",// el siguiente hash corresponde a la clave 12345
-    "createdAt" : ISODate("2018-07-19T06:18:41.256Z"),
-    "updatedAt" : ISODate("2018-07-19T23:50:58.481Z"),
-    "deleted" : false
-}
+## Registro de usuario
 
+* **URL**
+```
+ /users
+```
+* **Método**
+```
+POST
 ```
 
+### Body Parameters
+Campo | Tipo De Datos | Requerido | Descripción
+--- | --- | --- | ---
+name | string | Sí | Nombre del usuario a registrar
+paternalSurname | string | Sí | Apellido paterno del usuario
+maternalSurname | string | Sí | Apellido materno del usuario
+email | string | Sí | Correo electronico del usuario.
+password | string | Sí | Contraseña de usuario.
