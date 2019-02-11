@@ -238,6 +238,53 @@ lng | Double | Sí | Longitud de la posición del restaurante.
 }
 ```
 
+## Busqueda de restaurante por ID
+
+### URL
+```
+ /restaurants/<resturantId>
+```
+### Método
+```
+GET
+```
+
+### Headers
+```
+ Authorization: Bearer <token proporcionado por el api de autenticación>
+```
+
+### Success Response - Codigo HTTP 200
+
+``` json
+{
+ "success": true,
+ "restaurant": {
+  "deletedBy": "5c620396753ea057308e7bb9",
+  "deletedAt": "2019-02-11T23:40:34.251Z",
+  "_id": "5c620396753ea057308e7bb9",
+  "updatedAt": "2019-02-11T23:40:34.254Z",
+  "createdAt": "2019-02-11T23:21:58.990Z",
+  "name": "Vips",
+  "lat": 19.4343886968948,
+  "lng": -99.1433370212402,
+  "email": "vips@gmail.com",
+  "phone": "1242343432",
+  "isActive": true,
+  "deleted": true
+ }
+}
+```
+
+### Not Found Restaurante - Codigo HTTP 404
+``` json
+{
+    "success": false,
+    "message": "not found Restaurant"
+}
+```
+
+
 ## Eliminación de restaurante
 
 ### URL

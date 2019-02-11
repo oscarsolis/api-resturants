@@ -19,10 +19,13 @@ exports.index = async (req, res, next) => {
  */
 exports.findOne = async (req, res, next) => {
 	try {
-		const restaurant = await Restaurant.findById(req.params.RestaurantId);
+		const restaurant = await Restaurant.findOne({
+			_id: req.params.restaurantId,
+			deleted: false
+		});
 		!restaurant
-			? respond(res, { message: "not found Restaurants" }, 404)
-			: respond(res, restaurant);
+			? respond(res, { success: false, message: "not found Restaurant" }, 404)
+			: respond(res, { success: true, restaurant });
 	} catch (error) {
 		respond(res, error, 500);
 	}
@@ -85,7 +88,7 @@ exports.delete = async (req, res, next) => {
 	try {
 		const restaurant = await Restaurant.findOne({
 			_id: req.params.restaurantId,
-			delete: false
+			deleted: false
 		});
 		if (restaurant) {
 			const restaurantDeleted = await restaurant.delete(
@@ -99,7 +102,7 @@ exports.delete = async (req, res, next) => {
 						404
 				  );
 		} else {
-			respond(res, { success:false, message: "not found Restaurant" }, 404);
+			respond(res, { success: false, message: "not found Restaurant" }, 404);
 		}
 	} catch (error) {
 		console.log(error);
