@@ -48,9 +48,9 @@ exports.new = (req, res, next) => {
 					const errors = Object.keys(err.errors).map(
 						key => err.errors[key].message
 					);
-					respond(res, errors, 422);
+					respond(res, { success: false, errors }, 422);
 				} else {
-					respond(res, err, 500);
+					respond(res, { success: false, errors: err }, 500);
 				}
 			});
 	}

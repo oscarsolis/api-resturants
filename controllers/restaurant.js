@@ -46,12 +46,16 @@ exports.new = (req, res, next) => {
 	} else {
 		restaurant
 			.save()
-			.then(result => respond(res, { success: true, restaurant }, 200))
+			.then(restaurant => respond(res, { success: true, restaurant }, 200))
 			.catch(err => {
-				const errors = Object.keys(err.errors).map(
-					key => err.errors[key].message
-				);
-				respond(res, errors, err.code ? 500 : 422);
+				if (err.errors) {
+					const errors = Object.keys(err.errors).map(
+						key => err.errors[key].message
+					);
+					respond(res, { success: false, errors }, 422);
+				} else {
+					respond(res, { success: false, errors: err }, 500);
+				}
 			});
 	}
 };
