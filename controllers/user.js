@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
-const { respond, registerLog } = require("../utils");
+const { respond } = require("../utils");
 
 /**
  *
@@ -37,15 +37,21 @@ exports.new = (req, res, next) => {
 	let user = new User(userData);
 	let err = user.validateSync();
 	if (err) {
-		const errors = Object.keys(err.errors).map(key=> err.errors[key].message);
+		const errors = Object.keys(err.errors).map(key => err.errors[key].message);
 		respond(res, { success: false, errors }, 422);
 	} else {
 		user
 			.save()
 			.then(user => respond(res, { success: true, user }, 201))
 			.catch(err => {
-				const errors = Object.keys(err.errors).map(key => err.errors[key].message);
-				respond(res, errors, err.code ? 500 : 422);
+				if (err.errors) {
+					const errors = Object.keys(err.errors).map(
+						key => err.errors[key].message
+					);
+					respond(res, errors, 422);
+				} else {
+					respond(res, err, 500);
+				}
 			});
 	}
 };
@@ -66,11 +72,9 @@ exports.update = (req, res, next) => {
 					user.password = password;
 					user
 						.save()
-						.then(user => registerLog(req, "UPDATE", "User"))
 						.then(user => respond(res, { message: "success" }))
 						.catch(err => respond(res, err, 500));
 				} else {
-					registerLog(req, "UPDATE", "User");
 					respond(res, { message: "success" });
 				}
 			} else {
@@ -90,7 +94,6 @@ exports.delete = async (req, res, next) => {
 		let user = await User.findOne({ _id: req.params.userId });
 		if (user) {
 			let userDeleted = await user.delete(req.params.userId);
-			await registerLog(req, "DELETE", "User");
 			userDeleted
 				? respond(res, userDeleted)
 				: respond(res, { message: "not found user" }, 404);
