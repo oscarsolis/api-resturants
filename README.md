@@ -260,8 +260,6 @@ GET
 {
  "success": true,
  "restaurant": {
-  "deletedBy": "5c620396753ea057308e7bb9",
-  "deletedAt": "2019-02-11T23:40:34.251Z",
   "_id": "5c620396753ea057308e7bb9",
   "updatedAt": "2019-02-11T23:40:34.254Z",
   "createdAt": "2019-02-11T23:21:58.990Z",
@@ -283,7 +281,6 @@ GET
     "message": "not found Restaurant"
 }
 ```
-
 
 ## Eliminación de restaurante
 
